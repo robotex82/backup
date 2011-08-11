@@ -20,9 +20,9 @@ module Backup
     # Stores the path to the archive directory
     attr_accessor :archive_path
     
-    ##
-    # Boolean option to resolve symlinks
-    attr_accessor :resolve_symlinks
+#    ##
+#    # Boolean option to resolve symlinks
+#    attr_accessor :resolve_symlinks
 
     ##
     # Takes the name of the archive and the configuration block
@@ -56,13 +56,17 @@ module Backup
       Logger.message("#{ self.class } started packaging and archiving #{ paths.map { |path| "\"#{path}\""}.join(", ") }.")
       run("#{ utility(:tar) } -c -f #{ symlinks_option } '#{ File.join(archive_path, "#{name}.tar") }' #{ paths_to_exclude } #{ paths_to_package } 2> /dev/null")
     end
+    
+    def resolve_symlinks(resolve_symlinks)
+      @resolve_symlinks = !!resolve_symlinks
+    end
 
   private
 
     ##
     # Returns the "-h" option if the following symlinks option was set to true
     def symlinks_option
-      return "-h" if !!resolve_symlinks
+      return "-h" if @resolve_symlinks
     end
     
     ##
