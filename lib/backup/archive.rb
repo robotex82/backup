@@ -27,10 +27,11 @@ module Backup
     ##
     # Takes the name of the archive and the configuration block
     def initialize(name, &block)
-      @name         = name.to_sym
-      @paths        = Array.new
-      @excludes     = Array.new
-      @archive_path = File.join(TMP_PATH, TRIGGER, 'archive')
+      @name             = name.to_sym
+      @paths            = Array.new
+      @excludes         = Array.new
+      @archive_path     = File.join(TMP_PATH, TRIGGER, 'archive')
+      @resolve_symlinks = false
 
       instance_eval(&block)
     end
